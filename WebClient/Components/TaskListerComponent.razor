@@ -1,6 +1,7 @@
 @using WebClient.Abstractions
 @using WebClient.Shared.Models
 @using Domain.ViewModel
+@using WebClient.Shared.Components
 
 @inject ITaskDataService taskService;
 @inject IMemberDataService memberService;
@@ -47,7 +48,8 @@
 <div class="task-wrapper">
     @foreach (var item in tasks)
     {
-        <div class="task-item p-3 my-3 row m-0">
+        <Draggable Data="@item">
+            <div class="task-item p-3 my-3 row m-0">
             <div class="col-10 p-0">
                 <Check TValue="bool" Checked="@item.IsDone" CheckedChanged="@(val => ToggleTask(item))">
                     <span class="@(item.IsDone ? "done-text" : "")">@item.Text</span>
@@ -55,11 +57,12 @@
             </div>
             <div class="col-2 p-0 d-flex justify-content-end align-items-center">
                 @if (item.Member != null) {
-                    <div class="avtar mr-1" style="background-color: @selectedMember.Avatar;"></div>
+                    <div class="avtar mr-1" style="background-color: @selectedMember?.Avatar;"></div>
                 }
                 <img class="delete-icon" src="/assets/images/delete-icon.svg"/>
             </div>
         </div>
+        </Draggable>
     }
 </div>
 
